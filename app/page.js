@@ -1,95 +1,101 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import React, { useReducer, useEffect } from 'react';
+import Head from 'next/head';
+import styles from './page.module.css';
+
+const initialState = {
+  minutes: 25,
+  seconds: 0,
+  isActive: false,
+  mode: 'work',
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'TICK':
+      if (state.seconds > 0) {
+        return { ...state, seconds: state.seconds - 1 };
+      } else if (state.minutes > 0) {
+        return { ...state, minutes: state.minutes - 1, seconds: 59 };
+      } else {
+        const newMode = state.mode === 'work' ? 'break' : 'work';
+        return {
+          ...state,
+          isActive: false,
+          mode: newMode,
+          minutes: newMode === 'work' ? 25 : 5,
+          seconds: 0,
+        };
+      }
+    case 'TOGGLE_TIMER':
+      return { ...state, isActive: !state.isActive };
+    case 'RESET_TIMER':
+      return {
+        ...state,
+        isActive: false,
+        minutes: state.mode === 'work' ? 25 : 5,
+        seconds: 0,
+      };
+    default:
+      return state;
+  }
+}
 
 export default function Home() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    let interval = null;
+    if (state.isActive) {
+      interval = setInterval(() => {
+        dispatch({ type: 'TICK' });
+      }, 1000);
+    } else if (!state.isActive && state.seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [state.isActive, state.seconds]);
+
+  function toggleTimer() {
+    dispatch({ type: 'TOGGLE_TIMER' });
+  }
+
+  function resetTimer() {
+    dispatch({ type: 'RESET_TIMER' });
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={styles.container}>
+      <Head>
+        <title>Pomodoro Timer</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>{state.mode === 'work' ? 'Work Time' : 'Break Time'}</h1>
+        <div className={styles.timer}>
+          {String(state.minutes).padStart(2, '0')}:{String(state.seconds).padStart(2, '0')}
         </div>
-      </div>
+        <div className={styles.buttons}>
+          <button className={styles.button} onClick={toggleTimer}>
+            {state.isActive ? 'Pause' : 'Start'}
+          </button>
+          <button className={styles.button} onClick={resetTimer}>Reset</button>
+        </div>
+      </main>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <style jsx global>{`
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        }
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
+    </div>
   );
 }

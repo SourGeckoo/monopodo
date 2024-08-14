@@ -24,6 +24,7 @@
   text-align: center;
   font-weight: 400;
   font-size: calc(2rem + 1.5vw);
+  color: #7086dc;
 }
 
 .timer {
@@ -43,7 +44,7 @@
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
-  background-color: #4a4a4a;
+  background-color: #232323;
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -51,13 +52,13 @@
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: #666666;
+      background-color: #393939;
       transform: translateY(-2px);
     }
 
     &:active {
-      background-color: #4a4a4a;
+      background-color: #131313;
       transform: translateY(2px);
     }
   }
-}
+  }

@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Podomoro timer",
+  title: "monopodo timer",
 };
 
 export default function RootLayout({ children }) {

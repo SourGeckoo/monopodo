@@ -23,23 +23,13 @@
   line-height: 1.15;
   text-align: center;
   font-weight: 400;
-
-  /* Responsive font size adjustment */
-  font-size: 3rem;
-  @media (min-width: 768px) {
-    font-size: 4rem;
-  }
+  font-size: calc(2rem + 1.5vw);
 }
 
 .timer {
-  font-size: 6rem;
+  font-size: calc(6rem + 2vw);
   margin: 2rem 0;
   font-weight: 500;
-
-  /* Responsive font size adjustment */
-  @media (min-width: 768px) {
-    font-size: 8rem;
-  }
 }
 
 .buttons {
@@ -49,31 +39,25 @@
 }
 
 .button {
-  font-size: 1.2rem;
+  font-size: calc(1rem + 0.5vw);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   background-color: #4a4a4a;
   color: #ffffff;
   cursor: pointer;
-  transition:  0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   font-weight: 500;
 
-  /* Responsive font size adjustment */
-  @media (min-width: 768px) {
-    font-size: 1.5rem;
-  }
-}
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #666666;
+      transform: translateY(-2px);
+    }
 
-/* Hover effects for desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .button:hover {
-    background-color: #666666;
-    transform: translateY(-0.05rem);
-  }
-
-  .button:active {
-    background-color: #4a4a4a;
-    transform: translateY(0.1rem);
+    &:active {
+      background-color: #4a4a4a;
+      transform: translateY(2px);
+    }
   }
 }

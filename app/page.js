@@ -67,12 +67,11 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Pomodoro Timer</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>{state.mode === 'work' ? 'Work Time' : 'Break Time'}</h1>
+        <h1 className={styles.title}>{state.mode === 'work' ? 'Work' : 'Break'}</h1>
         <div className={styles.timer}>
           {String(state.minutes).padStart(2, '0')}:{String(state.seconds).padStart(2, '0')}
         </div>
@@ -83,19 +82,6 @@ export default function Home() {
           <button className={styles.button} onClick={resetTimer}>Reset</button>
         </div>
       </main>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   );
 }

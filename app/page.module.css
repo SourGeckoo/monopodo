@@ -21,32 +21,59 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
   text-align: center;
   font-weight: 400;
+
+  /* Responsive font size adjustment */
+  font-size: 3rem;
+  @media (min-width: 768px) {
+    font-size: 4rem;
+  }
 }
+
 .timer {
-  font-size: 8rem;
-  font-weight: bold;
+  font-size: 6rem;
   margin: 2rem 0;
-  font-weight: 700;
+  font-weight: 500;
+
+  /* Responsive font size adjustment */
+  @media (min-width: 768px) {
+    font-size: 8rem;
+  }
 }
+
 .buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
+
 .button {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   background-color: #4a4a4a;
   color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-weight: 700;
+  transition:  0.3s ease;
+  font-weight: 500;
+
+  /* Responsive font size adjustment */
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
-.button:hover {
-  background-color: #666666;
+
+/* Hover effects for desktop only */
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    background-color: #666666;
+    transform: translateY(-0.05rem);
+  }
+
+  .button:active {
+    background-color: #4a4a4a;
+    transform: translateY(0.1rem);
+  }
 }

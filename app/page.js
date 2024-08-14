@@ -1,7 +1,5 @@
 'use client';
 
-import { SpeedInsights } from "@vercel/speed-insights/next"
-
 import React, { useReducer, useEffect } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';

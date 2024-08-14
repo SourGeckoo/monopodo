@@ -2,6 +2,9 @@
 import React, { useReducer, useEffect } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
+import { Inter } from 'next/font/google';
+
+const interfont = Inter({ subsets: ['latin'] });
 
 const initialState = {
   minutes: 25,
@@ -76,10 +79,10 @@ export default function Home() {
           {String(state.minutes).padStart(2, '0')}:{String(state.seconds).padStart(2, '0')}
         </div>
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={toggleTimer}>
-            {state.isActive ? 'Pause' : 'Start'}
-          </button>
-          <button className={styles.button} onClick={resetTimer}>Reset</button>
+        <button className={`${styles.button} ${interfont.className}`} onClick={toggleTimer}>
+        {state.isActive ? 'Pause' : 'Start'}
+        </button>
+          <button className={`${styles.button} ${interfont.className}`} onClick={resetTimer}>Reset</button>
         </div>
       </main>
     </div>

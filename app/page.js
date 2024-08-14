@@ -1,7 +1,12 @@
 'use client';
+
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import React, { useReducer, useEffect } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
+
+// fonts
 import { Inter } from 'next/font/google';
 import { Space_Mono } from "next/font/google";
 import { DM_Mono } from 'next/font/google';

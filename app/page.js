@@ -6,6 +6,8 @@ import { Inter } from 'next/font/google';
 import { Space_Mono } from "next/font/google";
 import { DM_Mono } from 'next/font/google';
 
+export var backgroundColor;
+
 const interfont = Inter({ subsets: ['latin'] });
 const spacemonofont = Space_Mono({ subsets: ['latin'], weight: ["400", "700"] });
 const dmmonofont = DM_Mono({ subsets: ['latin'], weight: ["300", "400", "500"] });
@@ -60,8 +62,18 @@ export default function Home() {
     } else if (!state.isActive && state.seconds !== 0) {
       clearInterval(interval);
     }
+    if (state.mode == 'work') {
+      backgroundColor = "#8c443e"
+    }
+    else {
+      backgroundColor = "#3b5d75"
+    }
     return () => clearInterval(interval);
   }, [state.isActive, state.seconds]);
+
+  useEffect(() => {
+    document.body.style.setProperty('--background-color', backgroundColor);
+  }, []);
 
   function toggleTimer() {
     dispatch({ type: 'TOGGLE_TIMER' });
@@ -76,7 +88,6 @@ export default function Home() {
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={`${styles.main} ${spacemonofont.className}`}>
         <h1 className={styles.title}>{state.mode === 'work' ? 'Work' : 'Break'}</h1>
         <div className={`${styles.timer} ${dmmonofont.className}`}>

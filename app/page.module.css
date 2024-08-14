@@ -14,8 +14,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #1a1a1a;
   color: #ffffff;
+  background-color: var(--background-color);
 }
 
 .title {
@@ -23,8 +23,9 @@
   line-height: 1.15;
   text-align: center;
   font-weight: 400;
-  font-size: calc(2rem + 1.5vw);
-  color: #7086dc;
+  font-size: calc(2.5rem + 1.5vw);
+  color: #000000;
+  font-weight: 500;
 }
 
 .timer {

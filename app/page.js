@@ -118,7 +118,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${spacemonofont.className}`}>
-        <p className={`${styles.brand}`}>monopodo</p>
+        <p className={`${styles.brand}`}>monopodo</p> 
         <button 
           onClick={toggleFullscreen}
           className={`${styles.fullscreenButton} ${spacemonofont.className}`}

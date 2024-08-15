@@ -5,13 +5,9 @@ import Head from 'next/head';
 import styles from './page.module.css';
 
 // fonts
-import { Inter } from 'next/font/google';
 import { Space_Mono } from "next/font/google";
 import { DM_Mono } from 'next/font/google';
 
-export var backgroundColor;
-
-const interfont = Inter({ subsets: ['latin'] });
 const spacemonofont = Space_Mono({ subsets: ['latin'], weight: ["400", "700"] });
 const dmmonofont = DM_Mono({ subsets: ['latin'], weight: ["300", "400", "500"] });
 
@@ -20,6 +16,7 @@ const initialState = {
   seconds: 0,
   isActive: false,
   mode: 'work',
+  backgroundColor: '#8c443e', // Initial work color
 };
 
 function reducer(state, action) {
@@ -37,6 +34,7 @@ function reducer(state, action) {
           mode: newMode,
           minutes: newMode === 'work' ? 25 : 5,
           seconds: 0,
+          backgroundColor: newMode === 'work' ? '#8c443e' : '#3b5d75',
         };
       }
     case 'TOGGLE_TIMER':
@@ -46,6 +44,16 @@ function reducer(state, action) {
         ...state,
         isActive: false,
         minutes: state.mode === 'work' ? 25 : 5,
+        seconds: 0,
+      };
+    case 'TOGGLE_STATE':
+      const newMode = state.mode === 'work' ? 'break' : 'work';
+      return {
+        ...state,
+        mode: newMode,
+        backgroundColor: newMode === 'work' ? '#8c443e' : '#3b5d75',
+        isActive: false,
+        minutes: state.mode === 'break' ? 25 : 5,
         seconds: 0,
       };
     default:
@@ -65,18 +73,12 @@ export default function Home() {
     } else if (!state.isActive && state.seconds !== 0) {
       clearInterval(interval);
     }
-    if (state.mode == 'work') {
-      backgroundColor = "#8c443e"
-    }
-    else {
-      backgroundColor = "#3b5d75"
-    }
     return () => clearInterval(interval);
   }, [state.isActive, state.seconds]);
 
   useEffect(() => {
-    document.body.style.setProperty('--background-color', backgroundColor);
-  }, []);
+    document.body.style.setProperty('--background-color', state.backgroundColor);
+  }, [state.backgroundColor]);
 
   function toggleTimer() {
     dispatch({ type: 'TOGGLE_TIMER' });
@@ -84,6 +86,10 @@ export default function Home() {
 
   function resetTimer() {
     dispatch({ type: 'RESET_TIMER' });
+  }
+
+  function toggleState() {
+    dispatch({ type: 'TOGGLE_STATE' });
   }
 
   return (
@@ -97,10 +103,11 @@ export default function Home() {
           {String(state.minutes).padStart(2, '0')}:{String(state.seconds).padStart(2, '0')}
         </div>
         <div className={styles.buttons}>
-        <button className={`${styles.button} ${spacemonofont.className}`} onClick={toggleTimer}>
-        {state.isActive ? 'Pause' : 'Start'}
-        </button>
+          <button className={`${styles.button} ${spacemonofont.className}`} onClick={toggleTimer}>
+            {state.isActive ? 'Pause' : 'Start'}
+          </button>
           <button className={`${styles.button} ${spacemonofont.className}`} onClick={resetTimer}>Reset</button>
+          <button className={`${styles.button} ${spacemonofont.className}`} onClick={toggleState}>Skip</button>
         </div>
       </main>
     </div>

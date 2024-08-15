@@ -81,3 +81,11 @@
 .fullscreenButton:hover {
   background-color: rgba(194, 193, 193, 0.3);
 }
+
+.brand {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  padding: 0px 10px;
+  font-size: 15pt;
+}

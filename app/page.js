@@ -1,12 +1,10 @@
 'use client';
 
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
 
-// fonts
-import { Space_Mono } from "next/font/google";
-import { DM_Mono } from 'next/font/google';
+import { Space_Mono, DM_Mono } from "next/font/google";
 
 const spacemonofont = Space_Mono({ subsets: ['latin'], weight: ["400", "700"] });
 const dmmonofont = DM_Mono({ subsets: ['latin'], weight: ["300", "400", "500"] });
@@ -16,7 +14,7 @@ const initialState = {
   seconds: 0,
   isActive: false,
   mode: 'work',
-  backgroundColor: '#8c443e', // Initial work color
+  backgroundColor: '#8c443e',
 };
 
 function reducer(state, action) {
@@ -63,6 +61,7 @@ function reducer(state, action) {
 
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     let interval = null;
@@ -80,6 +79,15 @@ export default function Home() {
     document.body.style.setProperty('--background-color', state.backgroundColor);
   }, [state.backgroundColor]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   function toggleTimer() {
     dispatch({ type: 'TOGGLE_TIMER' });
   }
@@ -92,12 +100,30 @@ export default function Home() {
     dispatch({ type: 'TOGGLE_STATE' });
   }
 
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
+
   return (
     <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${spacemonofont.className}`}>
+        <button 
+          onClick={toggleFullscreen}
+          className={`${styles.fullscreenButton} ${spacemonofont.className}`}
+        >
+          {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+        </button>
         <h1 className={styles.title}>{state.mode === 'work' ? 'Work' : 'Break'}</h1>
         <div className={`${styles.timer} ${dmmonofont.className}`}>
           {String(state.minutes).padStart(2, '0')}:{String(state.seconds).padStart(2, '0')}

@@ -4,7 +4,6 @@ import React, { useReducer, useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
 
-//fonts
 import { Space_Mono, DM_Mono } from "next/font/google";
 
 const spacemonofont = Space_Mono({ subsets: ['latin'], weight: ["400", "700"] });

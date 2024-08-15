@@ -70,7 +70,7 @@
   top: 10px;
   right: 10px;
   padding: 5px 10px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(168, 168, 168, 0.2);
   color: white;
   border: none;
   border-radius: 5px;
@@ -79,5 +79,5 @@
 }
 
 .fullscreenButton:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(194, 193, 193, 0.3);
 }
